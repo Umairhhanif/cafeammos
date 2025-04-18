@@ -1,0 +1,7 @@
+{
+  "name": "cafe-ammos-scripts",
+  "version": "1.0.0",
+  "description": "Utility scripts for Café Ammos website",
+  "type": "module",
+  "private": true
+} 
