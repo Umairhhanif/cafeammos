@@ -1,5 +1,6 @@
-import type { Metadata } from 'next';
-import ReservationsClient from './ReservationsClient';
+import React from 'react';
+import NewReservationClient from './NewReservationClient';
+import { Metadata } from 'next';
 
 // Props interface required by Next.js App Router for proper type checking
 // even though we're not using it directly in this component
@@ -11,12 +12,12 @@ type Props = {
 
 export const generateMetadata = async (): Promise<Metadata> => {
   return {
-    title: 'Reservations | Admin Dashboard | Café Ammos',
-    description: 'Manage all reservations for Café Ammos',
+    title: 'New Reservation | Admin Dashboard | Café Ammos',
+    description: 'Create a new reservation in the admin dashboard',
   };
 };
 
-export default function ReservationsPage(props: Props): React.ReactNode {
+export default function NewReservationPage(props: Props): React.ReactNode {
 /* eslint-enable @typescript-eslint/no-unused-vars */
-  return <ReservationsClient />;
+  return <NewReservationClient />;
 } 

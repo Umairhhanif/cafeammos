@@ -1,9 +1,22 @@
 {
   "extends": "next/core-web-vitals",
   "rules": {
-    "react/no-unescaped-entities": "off"
+    "react/no-unescaped-entities": "off",
+    "@typescript-eslint/no-unused-vars": ["error", {
+      "varsIgnorePattern": "^_",
+      "argsIgnorePattern": "^_"
+    }]
   },
   "overrides": [
+    {
+      "files": ["src/app/**/*.tsx"],
+      "rules": {
+        "@typescript-eslint/no-unused-vars": ["error", {
+          "varsIgnorePattern": "^_",
+          "argsIgnorePattern": "^_"
+        }]
+      }
+    },
     {
       "files": ["src/scripts/**/*.js"],
       "rules": {

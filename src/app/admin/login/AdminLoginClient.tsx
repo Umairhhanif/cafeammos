@@ -35,7 +35,8 @@ export default function AdminLoginClient() {
     try {
       const success = await login(email, password);
       if (success) {
-        router.push('/admin/dashboard');
+        // Use replace instead of push to avoid back-button issues
+        router.replace('/admin/dashboard');
       } else {
         setError('Invalid email or password');
       }
@@ -50,14 +51,24 @@ export default function AdminLoginClient() {
   const handleDemoLogin = async () => {
     setEmail('admin@cafeammos.com');
     setPassword('cafeadmin123');
+    setIsLoading(true);
     
     // Slight delay to show the filled fields before submitting
     setTimeout(() => {
       login('admin@cafeammos.com', 'cafeadmin123')
         .then(success => {
           if (success) {
-            router.push('/admin/dashboard');
+            // Use replace instead of push to avoid back-button issues
+            router.replace('/admin/dashboard');
+          } else {
+            setError('Demo login failed. Please try again.');
           }
+          setIsLoading(false);
+        })
+        .catch(err => {
+          setError('Something went wrong. Please try again later.');
+          console.error(err);
+          setIsLoading(false);
         });
     }, 500);
   };

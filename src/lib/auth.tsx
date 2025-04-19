@@ -37,16 +37,24 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   useEffect(() => {
     // Check if user is already logged in (from localStorage)
-    const storedUser = localStorage.getItem('cafeAmmos_user');
-    if (storedUser) {
-      try {
-        setUser(JSON.parse(storedUser));
-      } catch (error) {
-        console.error('Failed to parse user from localStorage:', error);
-        localStorage.removeItem('cafeAmmos_user');
+    try {
+      // Make sure we're on client side
+      if (typeof window !== 'undefined') {
+        const storedUser = localStorage.getItem('cafeAmmos_user');
+        if (storedUser) {
+          try {
+            setUser(JSON.parse(storedUser));
+          } catch (error) {
+            console.error('Failed to parse user from localStorage:', error);
+            localStorage.removeItem('cafeAmmos_user');
+          }
+        }
       }
+    } catch (error) {
+      console.error('Error accessing localStorage:', error);
+    } finally {
+      setIsLoading(false);
     }
-    setIsLoading(false);
   }, []);
 
   const login = async (email: string, password: string): Promise<boolean> => {
@@ -63,7 +71,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
       };
       
       setUser(adminUser);
-      localStorage.setItem('cafeAmmos_user', JSON.stringify(adminUser));
+      try {
+        if (typeof window !== 'undefined') {
+          localStorage.setItem('cafeAmmos_user', JSON.stringify(adminUser));
+        }
+      } catch (error) {
+        console.error('Error saving user to localStorage:', error);
+      }
       setIsLoading(false);
       return true;
     }
@@ -74,7 +88,13 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
   const logout = () => {
     setUser(null);
-    localStorage.removeItem('cafeAmmos_user');
+    try {
+      if (typeof window !== 'undefined') {
+        localStorage.removeItem('cafeAmmos_user');
+      }
+    } catch (error) {
+      console.error('Error removing user from localStorage:', error);
+    }
     router.push('/admin/login');
   };
 
@@ -90,18 +110,29 @@ export const withAuth = (Component: React.ComponentType) => {
   const AuthGuard = (props: React.ComponentProps<typeof Component>) => {
     const { user, isLoading } = useAuth();
     const router = useRouter();
+    const [authChecked, setAuthChecked] = useState(false);
 
     useEffect(() => {
-      if (!isLoading && !user) {
-        router.push('/admin/login');
+      // Only redirect once the loading state is complete
+      if (!isLoading) {
+        if (!user) {
+          router.push('/admin/login');
+        } else {
+          setAuthChecked(true);
+        }
       }
     }, [isLoading, user, router]);
 
-    // Show loading state or nothing while checking auth status
-    if (isLoading || !user) {
-      return null;
+    // Show loading state while checking auth
+    if (isLoading || !authChecked) {
+      return (
+        <div className="min-h-screen bg-primary-950 flex items-center justify-center">
+          <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-400"></div>
+        </div>
+      );
     }
 
+    // If auth checked and user exists, render the component
     return <Component {...props} />;
   };
 

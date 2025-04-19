@@ -1,9 +1,10 @@
 'use client';
 
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useAuth } from '@/lib/auth';
+import { Toaster } from 'react-hot-toast';
 
 interface AdminLayoutProps {
   children: React.ReactNode;
@@ -14,9 +15,23 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
   const pathname = usePathname();
 
+  // Close sidebar when changing routes (for mobile)
+  useEffect(() => {
+    setIsSidebarOpen(false);
+  }, [pathname]);
+
   const toggleSidebar = () => {
     setIsSidebarOpen(!isSidebarOpen);
   };
+
+  // Make sure we have a user before rendering the admin layout
+  if (!user) {
+    return (
+      <div className="min-h-screen bg-primary-950 flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-primary-400"></div>
+      </div>
+    );
+  }
 
   const navigation = [
     {
@@ -51,6 +66,33 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
   return (
     <div className="min-h-screen bg-primary-50 dark:bg-primary-950 transition-colors duration-300">
+      <Toaster position="top-right" toastOptions={{
+        style: {
+          background: '#F0FDF4',
+          color: '#166534',
+          borderRadius: '0.375rem',
+          border: '1px solid #DCFCE7',
+        },
+        success: {
+          duration: 3000,
+          iconTheme: {
+            primary: '#22C55E',
+            secondary: '#F0FDF4',
+          },
+        },
+        error: {
+          duration: 4000,
+          style: {
+            background: '#FEF2F2',
+            color: '#B91C1C',
+            border: '1px solid #FEE2E2',
+          },
+          iconTheme: {
+            primary: '#DC2626',
+            secondary: '#FEF2F2',
+          },
+        },
+      }} />
       {/* Mobile sidebar backdrop */}
       {isSidebarOpen && (
         <div 
@@ -61,7 +103,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
 
       {/* Sidebar */}
       <aside
-        className={`fixed inset-y-0 left-0 z-50 w-64 bg-white dark:bg-primary-900 shadow-lg transform ${
+        className={`fixed inset-y-0 left-0 z-50 w-64 bg-primary-50 dark:bg-primary-900 shadow-lg transform ${
           isSidebarOpen ? 'translate-x-0' : '-translate-x-full'
         } lg:translate-x-0 transition-all duration-300 ease-in-out border-r border-primary-100 dark:border-primary-800`}
       >
@@ -136,7 +178,7 @@ const AdminLayout: React.FC<AdminLayoutProps> = ({ children }) => {
       {/* Main content */}
       <div className={`lg:pl-64 flex flex-col flex-1`}>
         {/* Top navbar */}
-        <header className="bg-white dark:bg-primary-900 shadow-sm border-b border-primary-100 dark:border-primary-800 h-16 transition-colors duration-300">
+        <header className="bg-primary-50 dark:bg-primary-900 shadow-sm border-b border-primary-100 dark:border-primary-800 h-16 transition-colors duration-300">
           <div className="flex items-center justify-between h-full px-4">
             {/* Mobile menu button */}
             <button
