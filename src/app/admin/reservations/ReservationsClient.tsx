@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react';
 import { withAuth } from '@/lib/auth';
 import AdminLayout from '@/components/admin/AdminLayout';
-import { Button } from '@/components/ui/Button';
+import Button from '@/components/ui/Button';
 import { mockReservations, Reservation, ReservationStatus } from '@/data/mockReservations';
 import { Search, Filter, ChevronLeft, ChevronRight, Download, RefreshCw } from 'lucide-react';
 import Link from 'next/link';
@@ -13,15 +13,15 @@ const StatusBadge = ({ status }: { status: ReservationStatus }) => {
   const getStatusStyles = () => {
     switch (status) {
       case 'confirmed':
-        return 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-400';
+        return 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300';
       case 'pending':
-        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-400';
+        return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300';
       case 'cancelled':
-        return 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-400';
+        return 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300';
       case 'completed':
-        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-400';
+        return 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300';
       default:
-        return 'bg-gray-100 text-gray-800 dark:bg-gray-700 dark:text-gray-300';
+        return 'bg-gray-100 text-gray-800 dark:bg-gray-800 dark:text-gray-300';
     }
   };
 
@@ -183,7 +183,7 @@ function ReservationsClient() {
           <div className="flex flex-wrap items-center gap-2">
             <Button 
               variant="outline" 
-              size="small"
+              size="sm"
               onClick={resetFilters}
               className="flex items-center gap-1"
             >
@@ -192,7 +192,7 @@ function ReservationsClient() {
             </Button>
             <Button 
               variant="primary" 
-              size="small"
+              size="sm"
               onClick={exportToCSV}
               className="flex items-center gap-1"
             >
@@ -200,7 +200,7 @@ function ReservationsClient() {
               <span>Export</span>
             </Button>
             <Link href="/admin/reservations/new">
-              <Button variant="secondary" size="small">New Reservation</Button>
+              <Button variant="secondary" size="sm">New Reservation</Button>
             </Link>
           </div>
         </div>
@@ -214,7 +214,7 @@ function ReservationsClient() {
             </div>
             <input
               type="text"
-              className="bg-primary-50 dark:bg-primary-900/50 border border-gray-300 dark:border-primary-800/50 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5"
+              className="bg-primary-50 dark:bg-primary-900 border border-gray-300 dark:border-primary-800 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5"
               placeholder="Search by name, email..."
               value={searchTerm}
               onChange={(e) => setSearchTerm(e.target.value)}
@@ -227,7 +227,7 @@ function ReservationsClient() {
               <Filter size={18} className="text-gray-400" />
             </div>
             <select
-              className="bg-primary-50 dark:bg-primary-900/50 border border-gray-300 dark:border-primary-800/50 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5"
+              className="bg-primary-50 dark:bg-primary-900 border border-gray-300 dark:border-primary-800 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full pl-10 p-2.5"
               value={statusFilter}
               onChange={(e) => setStatusFilter(e.target.value as ReservationStatus | 'all')}
             >
@@ -243,59 +243,59 @@ function ReservationsClient() {
           <div className="relative">
             <input
               type="date"
-              className="bg-primary-50 dark:bg-primary-900/50 border border-gray-300 dark:border-primary-800/50 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
+              className="bg-primary-50 dark:bg-primary-900 border border-gray-300 dark:border-primary-800 text-gray-900 dark:text-gray-100 text-sm rounded-lg focus:ring-primary-500 focus:border-primary-500 block w-full p-2.5"
               value={dateFilter}
               onChange={(e) => setDateFilter(e.target.value)}
             />
           </div>
           
           {/* Record count */}
-          <div className="text-sm text-gray-500 dark:text-gray-400 flex items-end">
+          <div className="text-sm text-gray-500 dark:text-gray-300 flex items-end">
             Showing {currentReservations.length} of {filteredReservations.length} reservations
           </div>
         </div>
         
         {/* Reservations Table */}
-        <div className="bg-primary-50 dark:bg-primary-900/50 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-primary-800/50">
+        <div className="bg-primary-50 dark:bg-primary-900/90 shadow-md rounded-lg overflow-hidden border border-gray-200 dark:border-primary-800">
           <div className="overflow-x-auto">
             {loading ? (
               <div className="flex justify-center items-center p-8">
                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500"></div>
               </div>
             ) : currentReservations.length === 0 ? (
-              <div className="text-center p-8 text-gray-500 dark:text-gray-400">
+              <div className="text-center p-8 text-gray-500 dark:text-gray-300">
                 No reservations found.
               </div>
             ) : (
-              <table className="min-w-full divide-y divide-gray-200 dark:divide-primary-800/50">
-                <thead className="bg-primary-100 dark:bg-primary-800/70">
+              <table className="min-w-full divide-y divide-gray-200 dark:divide-primary-800">
+                <thead className="bg-primary-100 dark:bg-primary-800/90">
                   <tr>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       ID
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Customer
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Date & Time
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Party Size
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Status
                     </th>
-                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Contact
                     </th>
-                    <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                    <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                       Actions
                     </th>
                   </tr>
                 </thead>
-                <tbody className="bg-primary-50 dark:bg-primary-900/50 divide-y divide-gray-200 dark:divide-primary-800/50">
+                <tbody className="bg-primary-50 dark:bg-primary-900/90 divide-y divide-gray-200 dark:divide-primary-800">
                   {currentReservations.map((reservation) => (
-                    <tr key={reservation.reservationId} className="hover:bg-primary-100/50 dark:hover:bg-primary-800/40">
+                    <tr key={reservation.reservationId} className="hover:bg-primary-100/70 dark:hover:bg-primary-800/70">
                       <td className="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-900 dark:text-white">
                         {reservation.reservationId}
                       </td>
@@ -318,7 +318,7 @@ function ReservationsClient() {
                       <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
                         <Link 
                           href={`/admin/reservations/${reservation.reservationId}`}
-                          className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300"
+                          className="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200"
                         >
                           View
                         </Link>
@@ -332,15 +332,15 @@ function ReservationsClient() {
           
           {/* Pagination */}
           {!loading && filteredReservations.length > 0 && (
-            <div className="px-6 py-3 bg-primary-100 dark:bg-primary-800/30 border-t border-gray-200 dark:border-primary-800/50 flex justify-between items-center">
-              <div className="text-sm text-gray-500 dark:text-gray-400">
+            <div className="px-6 py-3 bg-primary-100 dark:bg-primary-800/70 border-t border-gray-200 dark:border-primary-800 flex justify-between items-center">
+              <div className="text-sm text-gray-500 dark:text-gray-300">
                 Page {currentPage} of {totalPages}
               </div>
               
               <div className="flex space-x-2">
                 <Button
                   variant="outline" 
-                  size="small"
+                  size="sm"
                   onClick={prevPage}
                   disabled={currentPage === 1}
                   className="flex items-center gap-1"
@@ -350,7 +350,7 @@ function ReservationsClient() {
                 </Button>
                 <Button
                   variant="outline" 
-                  size="small"
+                  size="sm"
                   onClick={nextPage}
                   disabled={currentPage === totalPages}
                   className="flex items-center gap-1"

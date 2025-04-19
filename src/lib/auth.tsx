@@ -87,7 +87,7 @@ export const AuthProvider = ({ children }: { children: React.ReactNode }) => {
 
 // Authentication guard for protected routes
 export const withAuth = (Component: React.ComponentType) => {
-  const AuthGuard = (props: any) => {
+  const AuthGuard = (props: React.ComponentProps<typeof Component>) => {
     const { user, isLoading } = useAuth();
     const router = useRouter();
 

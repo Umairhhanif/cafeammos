@@ -8,13 +8,13 @@ import Link from 'next/link';
 
 // Stat card component
 const StatCard = ({ title, value, icon, color }: { title: string; value: number; icon: React.ReactNode; color: string }) => (
-  <div className="bg-primary-50 dark:bg-primary-900/50 rounded-lg shadow-sm p-6 border border-primary-100 dark:border-primary-800/50">
+  <div className="bg-primary-50 dark:bg-primary-900/90 rounded-lg shadow-sm p-6 border border-primary-100 dark:border-primary-800/80">
     <div className="flex items-center">
       <div className={`rounded-md p-3 ${color}`}>
         {icon}
       </div>
       <div className="ml-5">
-        <h3 className="text-sm font-medium text-gray-600 dark:text-gray-400">{title}</h3>
+        <h3 className="text-sm font-medium text-gray-600 dark:text-gray-300">{title}</h3>
         <div className="mt-1 text-3xl font-semibold text-gray-900 dark:text-white">{value}</div>
       </div>
     </div>
@@ -52,14 +52,14 @@ const DashboardClient = () => {
   // Status badge component
   const StatusBadge = ({ status }: { status: string }) => {
     const styles: Record<string, string> = {
-      confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/30 dark:text-green-300',
-      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/30 dark:text-yellow-300',
-      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/30 dark:text-red-300',
-      completed: 'bg-blue-100 text-blue-800 dark:bg-blue-900/30 dark:text-blue-300',
+      confirmed: 'bg-green-100 text-green-800 dark:bg-green-900/50 dark:text-green-300',
+      pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/50 dark:text-yellow-300',
+      cancelled: 'bg-red-100 text-red-800 dark:bg-red-900/50 dark:text-red-300',
+      completed: 'bg-blue-100 text-blue-800 dark:bg-blue-900/50 dark:text-blue-300',
     };
     
     return (
-      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || 'bg-gray-100 text-gray-800'}`}>
+      <span className={`inline-flex items-center px-2.5 py-0.5 rounded-full text-xs font-medium ${styles[status] || 'bg-gray-100 text-gray-800 dark:bg-gray-800/50 dark:text-gray-300'}`}>
         {status.charAt(0).toUpperCase() + status.slice(1)}
       </span>
     );
@@ -69,8 +69,8 @@ const DashboardClient = () => {
     <AdminLayout>
       <div className="mb-6">
         <h1 className="text-2xl font-semibold text-gray-900 dark:text-white">Dashboard</h1>
-        <p className="mt-1 text-sm text-gray-600 dark:text-gray-400">
-          Overview of your restaurant's reservations and activity
+        <p className="mt-1 text-sm text-gray-600 dark:text-gray-300">
+          Overview of your restaurant&apos;s reservations and activity
         </p>
       </div>
 
@@ -119,50 +119,50 @@ const DashboardClient = () => {
       </div>
 
       {/* Recent Reservations */}
-      <div className="bg-primary-50 dark:bg-primary-900/50 rounded-lg shadow-sm border border-primary-100 dark:border-primary-800/50 overflow-hidden">
-        <div className="px-6 py-5 border-b border-primary-100 dark:border-primary-800/50">
+      <div className="bg-primary-50 dark:bg-primary-900/90 rounded-lg shadow-sm border border-primary-100 dark:border-primary-800/80 overflow-hidden">
+        <div className="px-6 py-5 border-b border-primary-100 dark:border-primary-800/80">
           <h2 className="text-lg font-medium text-gray-900 dark:text-white">Recent Reservations</h2>
         </div>
         <div className="overflow-x-auto">
-          <table className="min-w-full divide-y divide-primary-100 dark:divide-primary-800/50">
-            <thead className="bg-primary-100 dark:bg-primary-800/70">
+          <table className="min-w-full divide-y divide-primary-100 dark:divide-primary-800/80">
+            <thead className="bg-primary-100 dark:bg-primary-800/90">
               <tr>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                   Name
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                   Date & Time
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                   Party Size
                 </th>
-                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-left text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                   Status
                 </th>
-                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-300 uppercase tracking-wider">
+                <th scope="col" className="px-6 py-3 text-right text-xs font-medium text-gray-500 dark:text-gray-200 uppercase tracking-wider">
                   Actions
                 </th>
               </tr>
             </thead>
-            <tbody className="bg-primary-50 dark:bg-primary-900/50 divide-y divide-primary-100 dark:divide-primary-800/50">
+            <tbody className="bg-primary-50 dark:bg-primary-900/90 divide-y divide-primary-100 dark:divide-primary-800/80">
               {recentReservations.map((reservation) => (
-                <tr key={reservation.reservationId} className="hover:bg-primary-100/50 dark:hover:bg-primary-800/40">
+                <tr key={reservation.reservationId} className="hover:bg-primary-100/70 dark:hover:bg-primary-800/70">
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="flex items-center">
                       <div>
                         <div className="text-sm font-medium text-gray-900 dark:text-white">{reservation.customerName}</div>
-                        <div className="text-sm text-gray-500 dark:text-gray-400">{reservation.email}</div>
+                        <div className="text-sm text-gray-500 dark:text-gray-300">{reservation.email}</div>
                       </div>
                     </div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900 dark:text-white">{formatDate(reservation.dateTime)}</div>
-                    <div className="text-sm text-gray-500 dark:text-gray-400">{formatTime(reservation.dateTime)}</div>
+                    <div className="text-sm text-gray-500 dark:text-gray-300">{formatTime(reservation.dateTime)}</div>
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap">
                     <div className="text-sm text-gray-900 dark:text-white">{reservation.partySize} people</div>
                     {reservation.specialRequests && (
-                      <div className="text-sm text-gray-500 dark:text-gray-400 truncate max-w-[200px]" title={reservation.specialRequests}>
+                      <div className="text-sm text-gray-500 dark:text-gray-300 truncate max-w-[200px]" title={reservation.specialRequests}>
                         {reservation.specialRequests}
                       </div>
                     )}
@@ -171,7 +171,7 @@ const DashboardClient = () => {
                     <StatusBadge status={reservation.status} />
                   </td>
                   <td className="px-6 py-4 whitespace-nowrap text-right text-sm font-medium">
-                    <Link href={`/admin/reservations/${reservation.reservationId}`} className="text-primary-600 hover:text-primary-900 dark:text-primary-400 dark:hover:text-primary-300">
+                    <Link href={`/admin/reservations/${reservation.reservationId}`} className="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200">
                       View
                     </Link>
                   </td>
@@ -180,8 +180,8 @@ const DashboardClient = () => {
             </tbody>
           </table>
         </div>
-        <div className="px-6 py-4 border-t border-primary-100 dark:border-primary-800/50 bg-primary-100 dark:bg-primary-800/30">
-          <Link href="/admin/reservations" className="text-primary-600 hover:text-primary-700 dark:text-primary-400 dark:hover:text-primary-300 font-medium text-sm">
+        <div className="px-6 py-4 border-t border-primary-100 dark:border-primary-800/80 bg-primary-100 dark:bg-primary-800/70">
+          <Link href="/admin/reservations" className="text-primary-600 hover:text-primary-700 dark:text-primary-300 dark:hover:text-primary-200 font-medium text-sm">
             View all reservations →
           </Link>
         </div>
