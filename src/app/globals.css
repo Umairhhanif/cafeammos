@@ -20,6 +20,7 @@
   --heading-color: #052e16;  /* Dark green for headings */
 }
 
+/* Dark mode via media query (system preference) */
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0f1c12;
@@ -27,6 +28,14 @@
     --text-color: #ffffff;  /* White text for dark mode */
     --heading-color: #4ade80;  /* Light green for headings in dark mode */
   }
+}
+
+/* Dark mode via class (manually toggled) */
+.dark {
+  --background: #0f1c12;
+  --foreground: #f3f4f6;
+  --text-color: #ffffff;  /* White text for dark mode */
+  --heading-color: #4ade80;  /* Light green for headings in dark mode */
 }
 
 body {
