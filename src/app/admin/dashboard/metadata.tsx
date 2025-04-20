@@ -1,11 +1,12 @@
 import { Metadata } from 'next';
 
-// Props interface required by Next.js App Router for proper type checking
-// even though we're not using it directly in this specific file
+// Type definition matching Next.js expectations
+type SegmentParams = Record<string, string | string[]>;
+
 /* eslint-disable @typescript-eslint/no-unused-vars */
-type Props = {
-  params: { [key: string]: string | string[] };
-  searchParams: { [key: string]: string | string[] | undefined };
+interface Props {
+  params?: Promise<SegmentParams>;
+  searchParams?: Promise<Record<string, string | string[] | undefined>>;
 }
 /* eslint-enable @typescript-eslint/no-unused-vars */
 
